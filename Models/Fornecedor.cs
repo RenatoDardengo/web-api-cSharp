@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace web_api
 {
@@ -20,10 +21,12 @@ namespace web_api
         public string RazaoSocial { get; set; }
 
         [Column("cpf_cnpj")]
+        [NotMapped]
+        [JsonIgnore]
         public string Cpf_Cnpj{ get; set; }
-        [NotMapped]
+       
         public string CPF { get{return this.Cpf_Cnpj;} set{this.Cpf_Cnpj=value;} }
-        [NotMapped]
+       
         public string CNPJ { get { return this.Cpf_Cnpj; } set { this.Cpf_Cnpj = value; } }
 
       

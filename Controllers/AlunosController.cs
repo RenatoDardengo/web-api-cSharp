@@ -1,3 +1,4 @@
+using EntityFrameworkPaginateCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using web_api;
@@ -9,6 +10,7 @@ namespace mvc_api.Controllers
     //public class AlunosController : Controller =>foi alterada para a linha abaixo, pois afgora não preciso mais de view
     public class AlunosController : ControllerBase
     {
+        private const int ITENS_POR_PAGINA=3;
         private readonly DbContexto _context;
 
         public AlunosController(DbContexto context)
@@ -21,10 +23,10 @@ namespace mvc_api.Controllers
 
         [HttpGet]
         [Route("/alunos")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index( int page=1)
         {
             return _context.Alunos != null ?
-                        StatusCode(200, await _context.Alunos.ToListAsync()) :
+                        StatusCode(200, await _context.Alunos.OrderBy(a=>a.Id).PaginateAsync(page,ITENS_POR_PAGINA)) :
                         Problem("Entity set 'DbContexto.Alunos'  is null.");
         }
         #endregion
